@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/summer-note';
 
 const {
+  set,
   get,
   assert,
   Logger,
@@ -33,10 +34,14 @@ export default Component.extend({
   }),
 
   onChange(text) {
-    Logger.debug(`onChange callback. text: ${text}`);
-    let _onContentChange = this.get('onContentChange');
-    if (!isEmpty(_onContentChange)) {
-      _onContentChange(text);
+    if (text !== get(this, 'oldTextValue')) {
+		Logger.debug(`onChange callback. text: ${text}`);
+		let _onContentChange = this.get('onContentChange');
+		if (!isEmpty(_onContentChange)) {
+			_onContentChange(text);
+		}
+
+	  set(this, 'oldTextValue', text);
     }
   },
 
